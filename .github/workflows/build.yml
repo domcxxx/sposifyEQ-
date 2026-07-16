@@ -1,0 +1,27 @@
+name: Build SpotifyEQ10
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Theos
+        uses: Randomblock1/theos-action@v1
+
+      - name: Compile Tweak
+        run: |
+          make FINALPACKAGE=1
+
+      - name: Upload Dylib
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpotifyEQ10-Dylib
+          path: "**/*.dylib"
+          include-hidden-files: true
